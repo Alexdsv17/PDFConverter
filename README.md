@@ -1,52 +1,30 @@
-# PDFConverter
+# PDFConverter - Convert Your PDFs to Word
 
+## Overview
+PDFConverter is a simple and efficient tool that allows you to convert PDF files into editable Word documents (`.docx`). It is designed to be user-friendly and lightweight, making it easy to use for both personal and professional needs.
 
-import os
-import tkinter as tk
-from tkinter import filedialog, messagebox
-from pdf2docx import Converter
-from docx import Document
-from docx.shared import Inches
+## Features
+- **Fast Conversion:** Converts PDF files to `.docx` quickly and accurately.
+- **User-Friendly:** Simple interface with minimal setup required.
+- **Standalone Application:** No need for additional software or online services.
+- **Lightweight:** Runs efficiently without consuming too many resources.
 
-# Désactiver certaines fonctionnalités de OpenCV pour éviter l'erreur avec PyInstaller
-os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
+## How It Works
+1. **Launch PDFConverter** – Open the `.exe` file.
+2. **Select a PDF File** – Choose the PDF document you want to convert.
+3. **Start the Conversion** – Click the convert button.
+4. **Get Your Word Document** – The `.docx` file will be generated and saved.
 
-def convert_pdf_to_docx():
-    # Demander à l'utilisateur de sélectionner un fichier PDF
-    pdf_file = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
-    if not pdf_file:
-        return  # L'utilisateur a annulé la sélection
+## Requirements
+- **Operating System:** Windows 10 or later
+- **Dependencies:** Standalone executable, no additional installations required
 
-    # Demander où enregistrer le fichier DOCX
-    docx_file = filedialog.asksaveasfilename(defaultextension=".docx", filetypes=[("Word Files", "*.docx")])
-    if not docx_file:
-        return  # L'utilisateur a annulé l'enregistrement
+## Installation & Usage
+1. **Download** the application.
+2. **Extract** the ZIP file (if applicable).
+3. **Run** the `PDFConverter.exe` file.
+4. Follow the on-screen instructions to convert your PDFs.
 
-    try:
-        # Conversion PDF → DOCX
-        cv = Converter(pdf_file)
-        cv.convert(docx_file)
-        cv.close()
+## Contact
+For any issues or support, please reach out to us at [your email/contact info].
 
-        # Demander si l'utilisateur veut ajouter une image
-        add_image = messagebox.askyesno("Ajouter une image", "Voulez-vous ajouter une image au document ?")
-        if add_image:
-            image_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
-            if image_path:
-                doc = Document(docx_file)
-                doc.add_paragraph("Voici une image :")
-                doc.add_picture(image_path, width=Inches(4))
-                doc.save(docx_file)
-        
-        messagebox.showinfo("Succès", f"Conversion réussie ! Le fichier est enregistré sous {docx_file}")
-    except Exception as e:
-        messagebox.showerror("Erreur", f"Une erreur est survenue : {str(e)}")
-
-# Interface Tkinter
-root = tk.Tk()
-root.title("Convertisseur PDF → DOCX")
-
-convert_button = tk.Button(root, text="Convertir un PDF en DOCX", command=convert_pdf_to_docx)
-convert_button.pack(pady=20)
-
-root.mainloop()
